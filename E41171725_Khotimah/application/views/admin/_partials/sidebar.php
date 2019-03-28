@@ -11,7 +11,7 @@
           <span>Master</span>
         </a>
         <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <a class="dropdown-item" href="#">Barang</a>
+          <a class="dropdown-item" href="barang_controller">Barang</a>
           <a class="dropdown-item" href="#">Karyawan</a>
           <a class="dropdown-item" href="#">User</a>
           <a class="dropdown-item" href="#">Supplier</a>
