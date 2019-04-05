@@ -22,8 +22,8 @@ class Barang_controller extends CI_Controller {
         }
         $this->load->view("admin/barang/new_form");
     }
-    public function edit($id = null) {
-        if (!isset($id)) redirect('admin/barang');
+    public function update() {
+        /*if (!isset($id)) redirect('admin/barang');
 
         $barang = $this->barang_model;
         $validation = $this->form_validation;
@@ -37,14 +37,38 @@ class Barang_controller extends CI_Controller {
         $data["barang"] = $barang->getById($id);
         if (!$data["barang"]) show_404();
 
-        $this->load->view("admin/barang/edit_form", $data);
+        $this->load->view("admin/barang/edit_form", $data);*/
+        $kdbarang = $this->input->post('kdbarang');
+        $nama = $this->input->post('nama');
+        $deskripsi = $this->input->post('deskripsi');
+        $stokbarang = $this->input->post('stokbarang');
+        $hargabarang = $this->input->post('hargabarang');
+
+        $data = array(
+            'nama' => $nama,
+            'deskripsi' => $deskripsi,
+            'stokbarang' => $stokbarang,
+            'hargabarang' => $hargabarang
+
+        );
+        $where = array(
+            'kdbarang' => $kdbarang
+        );
+
+        $this->barang_model->update_data($where,$data,'barang');
+        redirect('barang_controller/index');
+    }
+    function edit($kdbarang){
+        $where = array('kdbarang'=> $kdbarang);
+        $data['barang'] = $this->barang_model->edit_data($where,'barang')->result();
+        $this->load->view('admin/barang/edit_form',$data);
     }
 
     public function delete($id=null) {
         if (!isset($id)) show_404();
 
         if ($this->barang_model->delete($id)) {
-            redirect(site_url('admin/barang'));
+            redirect(site_url('barang_controller'));
         }
     }
 }

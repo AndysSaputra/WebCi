@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Barang_model extends CI_Model {
     private $_table = "barang";
+
     public $kdbarang;
     public $nama;
     public $deskripsi;
@@ -33,18 +34,19 @@ class Barang_model extends CI_Model {
 
     //menampilkan DB
     public function getAll() {
+          // mysqli_query("Select * form barang");
         return $this->db->get($this->_table)->result();
     }
 
     //menampilkan data berdasarkan kode
     public function getById($kdbarang) {
+        // mysqli_query("Select * form barang where kdbarang = $");
         return $this->db->get_where($this->_table, ["kdbarang" => $kdbarang])->row();
     }
 
     //mengisikan data
     public function save() {
         $post = $this->input->post();
-        $this->kdbarang = uniqid();
         $this->nama = $post["nama"];
         $this->deskripsi = $post["deskripsi"];
         $this->stokbarang = $post["stokbarang"];
@@ -53,16 +55,13 @@ class Barang_model extends CI_Model {
         $this->db->insert($this->_table, $this);
     }
 
-    public function update() {
-        $post = $this->input->post();
-        $this->kdbarang = $post["kdbarang"];
-        $this->nama = $post["nama"];
-        $this->deskripsi = $post["deskripsi"];
-        $this->stokbarang = $post["stokbarang"];
-        $this->hargabarang = $post["hargabarang"];
-
-        $this->db->update($this->_table, array("kdbarang" => $post["kdbarang"]));
+    public function update_data($where,$data,$table) {
+        $this->db->where($where);
+        $this->db->update($table,$data);
     }
+    function edit_data($where,$table){
+       return $this->db->get_where($table,$where);
+}
 
     public function delete($kdbarang) {
         
